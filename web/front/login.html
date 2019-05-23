@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title></title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<link rel="stylesheet" type="text/css" href="style/public.css" />
+<link rel="stylesheet" type="text/css" href="style/register.css" />
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+	<div class="header_wrap">
+		<div id="header" class="auto">
+			<div class="logo">AO#</div>
+			<div class="nav">
+				<a class="hover">HOME</a>
+				<a style="margin-left: 5px;">New Posts</a>
+				<a>TOPICS</a>
+			</div>
+			<div class="serarch">
+				<form>
+					<input class="keyword" type="text" name="keyword" placeholder="Search" />
+					<input class="submit" type="submit" name="submit" value="" />
+				</form>
+			</div>
+			<div class="login">
+				<a>SIGN IN</a>&nbsp;
+				<a>Register</a>
+			</div>
+		</div>
+	</div>
+	<div style="margin-top:55px;"></div>
+	<div id="register" class="auto">
+		<h2>Welcome to register as an AO# member</h2>
+		<form>
+			<label>Username:<input type="text"  /><span>*Username contains disabled characters, please choose another username.</span></label>
+			<label>Password:<input type="password"  /><span>*Password contains disabled characters, please choose another password.</span></label>
+			<!-- <label>Comfirm:<input type="password"  /><span>*Password contains disabled characters, please choose another password.</span></label> -->
+			<label>Verification:<input name="vcode" type="text"  /><span>*Enter the Verification code.</span></label>
+			<img class="vcode" src="style/show_code.php.jpg" />
+			<label>Keep Login:
+				<select style="width:236px;height:25px;" name="time">
+					<option value="3600">1 hour</option>
+					<option value="86400">1 Day</option>
+					<option value="259200">3 Days</option>
+					<option value="2592000">30 Days</option>
+				</select>
+				<span>*Do not log in automatically for a long time on a public computer</span>
+			</label>
+			<div style="clear:both;"></div>
+			<input class="btn" type="submit" value="Confirm" />
+		</form>
+	</div>
+	<div id="footer" class="auto">
+		<div class="bottom">
+			<a>AO#</a>
+		</div>
+		<div class="copyright">Powered by sifangku ©2019 mylittlebbs.com</div>
+	</div>
+</body>
+</html>
