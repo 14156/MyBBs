@@ -37,12 +37,8 @@ $template['css']=array('style/public.css','style/index.css');
 					$query="select count(*) from `ao3-content` where module_id={$data_child['id']}";
 					$count_all=num($link,$query);
 					$html ="
-					<div class='childBox new'>
-					<h2><a href='#'>{$data_child['module_name']}</a> <span>(Today {$count_today})</span></h2>
-					Posts：$count_all<br/>
-					</div>
-					";		
-					echo ''.$html.'';
+					<div class='childBox new'><h2><a href='list_child.php?id={$data_child['id']}'>{$data_child['module_name']}</a> <span>(Today {$count_today})</span></h2>Posts：$count_all<br/></div>";		
+					echo $html;
 				}
 			}else{
 		 		echo '<div style="padding:10px 0;">No subsection for now...</div>';

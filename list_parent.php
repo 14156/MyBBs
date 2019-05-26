@@ -23,7 +23,7 @@ $id_child='';
 $child_list='';
 while($data_child=mysqli_fetch_assoc($result_child)){
 	$id_child.=$data_child['id'].',';
-	$child_list.="<a>{$data_child['module_name']}</a>  ";
+	$child_list.="<a href='list_child.php?id={$data_child['id']}'>{$data_child['module_name']}</a>  ";
 };
 $id_child=trim($id_child,',');
 // var_dump($id_child);exit();
@@ -50,7 +50,7 @@ $template['css']=array('style/public.css','style/list.css');
 				<div class="num">
 				    Today：<span><?php echo $count_today ?></span>&nbsp;&nbsp;&nbsp;
 				    Total：<span><?php echo $count_all ?></span>
-				  <div class="moderator"> Sub section： <?php echo $child_list ?></div>
+				  <div class="moderator"> Sub section：<?php echo $child_list ?></div>
 				</div>
 				<div class="pages_wrap">
 				<a class="btn btn-primary" href="" role="button">Post</a>
@@ -84,7 +84,7 @@ select ac.title, ac.id, ac.time,am.name,am.photo, acm.module_name, from `ao3-con
 `ao3-member`.name,`ao3-member`.photo,`ao3-child-module`.module_name from `ao3-content`,`ao3-member`,`ao3-child-module` where 
 `ao3-content`.module_id in({$id_child}) and 
 `ao3-content`.member_id=`ao3-member`.id and 
-`ao3-content`.module_id=`ao3-child-module`.id";
+`ao3-content`.module_id=`ao3-child-module`.id {$page['limit']}";
 
 				$result_content=execute($link,$query);
 				// var_dump($result_content);
@@ -95,7 +95,7 @@ select ac.title, ac.id, ac.time,am.name,am.photo, acm.module_name, from `ao3-con
 				<li>
 					<div class="smallPic">
 						<a href="#">
-							<img width="45" height="45"src="<?php if($data_content['photo']!='0'){echo $data_content['photo'];}else{echo 'style/photo.jpg';}?>" >
+							<img width="45" height="45"src="<?php if($data_content['photo']!=''){echo $data_content['photo'];}else{echo 'style/photo.jpg';}?>">
 						</a>
 					</div>
 					<div class="subject">
@@ -143,7 +143,7 @@ select ac.title, ac.id, ac.time,am.name,am.photo, acm.module_name, from `ao3-con
 							$result_child=execute($link,$query);
 							while($data_child=mysqli_fetch_assoc($result_child)){
 							?>
-							<li><h3><a href="#" ><?php echo $data_child['module_name']?></a></h3></li>
+							<li><h3><a href="list_child.php?id=<?php echo $data_child['id']?>" ><?php echo $data_child['module_name']?></a></h3></li>
 							<?php 
 							}
 							?>
