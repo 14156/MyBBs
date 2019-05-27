@@ -63,7 +63,7 @@ $template['css']=array('style/public.css','style/list.css');
 			</div>
 			<div class="pages_wrap">
 				<!-- <a class="btn publish" href=""></a> -->
-				<a class="btn btn-primary" href="" role="button">Post</a>
+				<a class="btn btn-primary" href="publish.php?child_module_id=<?php echo $_GET['id']?>" role="button" target="_blank">Post</a>
 				<div class="pages">
 					<?php
 					$page=page($count_all,1);
@@ -78,9 +78,16 @@ $template['css']=array('style/public.css','style/list.css');
 			<?php
 			$query="select 
 `ao3-content`.title,`ao3-content`.id,`ao3-content`.time,`ao3-content`.times,
-`ao3-member`.name,`ao3-member`.photo, from `ao3-content`,`ao3-member`,where 
-`ao3-content`.module_id={$_GET['id']} and 
-`ao3-content`.member_id=`ao3-member`.id {$page['limit']}";
+`ao3-member`.name,`ao3-member`.photo from `ao3-content`,`ao3-member` where 
+`ao3-content`.module_id={$_GET['id']} and `ao3-content`.member_id=`ao3-member`.id {$page['limit']}";
+/*
+select 
+`ao3-content`.title,`ao3-content`.id,`ao3-content`.time,`ao3-content`.times,
+`ao3-member`.name,`ao3-member`.photo,`ao3-child-module`.module_name from `ao3-content`,`ao3-member`,`ao3-child-module` where 
+`ao3-content`.module_id in({$id_child}) and 
+`ao3-content`.member_id=`ao3-member`.id and 
+`ao3-content`.module_id=`ao3-child-module`.id {$page['limit']}"
+*/
 			$result_content=execute($link,$query);
 			while ($data_content=mysqli_fetch_assoc($result_content)){
 			?>
@@ -112,7 +119,7 @@ $template['css']=array('style/public.css','style/list.css');
 		</ul>
 		<div class="pages_wrap">
 			<!-- <a class="btn publish" href=""></a> -->
-			<a class="btn btn-primary" href="" role="button">Post</a>
+			<a class="btn btn-primary" href="publish.php?child_module_id=<?php echo $_GET['id']?>" role="button" target="_blank">Post</a>
 			<div class="pages">
 				<?php
 					$page=page($count_all,1);

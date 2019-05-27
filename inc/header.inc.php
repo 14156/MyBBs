@@ -28,7 +28,7 @@ foreach ($template['css'] as $val) {
 			</div>
 			<div class="login" >
 			<?php 
-				if(isset($member_id) && $member_id==true){
+				if(isset($member_id) && $member_id){
 $str=<<<A
 <a>Hello, {$_COOKIE['ao3']['name']}</a> <span style="color:#fff">|</span> <a href="logout.php">SIGN OUT</a>
 A;

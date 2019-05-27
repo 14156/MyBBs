@@ -5,7 +5,7 @@ if(empty($_POST['module_id']) || !is_numeric($_POST['module_id'])){
 $query="select * from `ao3-child-module` where id={$_POST['module_id']}";
 $result=execute($link,$query);
 if(mysqli_num_rows($result)!=1){
-	skip('publish.php','error','Section id is invalid.');
+	skip('publish.php','error','Chose one sub-section before publish a post.');
 }
 if(empty($_POST['title'])){
 	skip('publish.php','error','Title can not be empty.');

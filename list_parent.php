@@ -53,7 +53,7 @@ $template['css']=array('style/public.css','style/list.css');
 				  <div class="moderator"> Sub section：<?php echo $child_list ?></div>
 				</div>
 				<div class="pages_wrap">
-				<a class="btn btn-primary" href="" role="button">Post</a>
+				<a class="btn btn-primary" href="publish.php?father_module_id=<?php echo $_GET['id']?>" role="button" target="_blank">Post</a>
 				<div class="pages">
 					<?php
 
@@ -118,7 +118,7 @@ select ac.title, ac.id, ac.time,am.name,am.photo, acm.module_name, from `ao3-con
 				 ?>
 			</ul>
 			<div class="pages_wrap">
-				<a class="btn btn-primary" href="" role="button">Post</a>
+			<a class="btn btn-primary" href="publish.php?parent_module_id=<?php echo $_GET['id']?>" role="button" target="_blank">Post</a>
 				<div class="pages">
 					<?php echo $page['html']; ?>
 				</div>

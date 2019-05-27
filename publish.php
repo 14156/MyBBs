@@ -8,7 +8,7 @@ if(!$member_id=is_login($link)){
 }
 if(isset($_POST['submit'])){
 	include 'inc/check_publish.inc.php';
-	escape($link,$_POST);
+	$_POST=escape($link,$_POST);
 	$query="insert into `ao3-content`(module_id,title,content,time,member_id) values({$_POST['module_id']},'{$_POST['title']}','{$_POST['content']}',now(),{$member_id})";
 	execute($link,$query);
 	if(mysqli_affected_rows($link)==1){
@@ -28,15 +28,25 @@ $template['css']=array('style/public.css','style/publish.css');
 	<div id="publish">
 		<form method="post">
 			<select name="module_id">
+				<option value='-1'> Please chose one section </option>
 				<?php
-					$query="select * from `ao3-parent-module` order by sort desc";
+					$where='';
+					if(isset($_GET['parent_module_id']) && is_numeric($_GET['parent_module_id'])){
+						$where="where id={$_GET['parent_module_id']} ";
+					}
+					$query="select * from `ao3-parent-module` {$where}order by sort desc";
 					$result_parent=execute($link,$query);
 					while($data_parent=mysqli_fetch_assoc($result_parent)){
 						echo "<optgroup label='{$data_parent['module_name']}'>";
 						$query="select * from `ao3-child-module` where parent_module_id={$data_parent['id']} order by sort desc";
 						$result_child=execute($link,$query);
 						while($data_child=mysqli_fetch_assoc($result_child)){
-							echo "<option value={$data_child['id']}> {$data_child['module_name']}</option>";
+							if(isset($_GET['child_module_id']) && $_GET['child_module_id']==$data_child['id']){
+								echo "<option selected='selected' value={$data_child['id']}> {$data_child['module_name']}</option>";
+							}else{
+								echo "<option value={$data_child['id']}>{$data_child['module_name']}</option>";
+							}
+							
 						}
 						echo "</optgroup>";
 					}
