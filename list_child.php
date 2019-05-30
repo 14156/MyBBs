@@ -90,25 +90,27 @@ select
 */
 			$result_content=execute($link,$query);
 			while ($data_content=mysqli_fetch_assoc($result_content)){
+
+				$data_content['title']=htmlspecialchars($data_content['title']);
 			?>
 			<li>
 					<div class="smallPic">
 						<a href="#">
-							<img width="45" height="45"src="<?php if($data_content['photo']!=''){echo $data_content['photo'];}else{echo 'style/photo.jpg';}?>">
+							<img width="45" height="45" src="<?php if($data_content['photo']!=''){echo $data_content['photo'];}else{echo 'style/photo.jpg';}?>">
 						</a>
 					</div>
 					<div class="subject">
-						<div class="titleWrap"><h2><a href="#"><?php echo $data_content['title']?></a></h2></div>
+						<div class="titleWrap"><h2><a target="_blank" href="show.php?id=<?php echo $data_content['id']?>"><?php echo $data_content['title']?></a></h2></div>
 						<p>
 							Op：<?php echo $data_content['name'] ?>&nbsp;<?php echo $data_content['time'] ?>&nbsp;&nbsp;&nbsp;&nbsp;Last Reply：2018-12-08
 						</p>
 					</div>
 					<div class="count">
 						<p>
-							Reply<br /><span>41</span>
+							Reply<br/><span>41</span>
 						</p>
 						<p>
-							View<br /><span><?php echo $data_content['times'] ?></span>
+							View<br/><span><?php echo $data_content['times'] ?></span>
 						</p>
 					</div>
 					<div style="clear:both;"></div>

@@ -90,6 +90,7 @@ select ac.title, ac.id, ac.time,am.name,am.photo, acm.module_name, from `ao3-con
 				// var_dump($result_content);
 				// var_dump(mysqli_fetch_assoc($result_content));
 				while ($data_content=mysqli_fetch_assoc($result_content)){
+					$data_content['title']=htmlspecialchars($data_content['title']);
 
 				?>
 				<li>
@@ -99,7 +100,7 @@ select ac.title, ac.id, ac.time,am.name,am.photo, acm.module_name, from `ao3-con
 						</a>
 					</div>
 					<div class="subject">
-						<div class="titleWrap"><a href="#">[<?php echo $data_content['module_name']?>]</a>&nbsp;&nbsp;<h2><a href="#"><?php echo $data_content['title']?></a></h2></div>
+						<div class="titleWrap"><a href="#">[<?php echo $data_content['module_name']?>]</a>&nbsp;&nbsp;<h2><a target="_blank" href=show.php?id=<?php echo $data_content['id']?>><?php echo $data_content['title']?></a></h2></div>
 						<p>
 							Op：<?php echo $data_content['name'] ?>&nbsp;<?php echo $data_content['time'] ?>&nbsp;&nbsp;&nbsp;&nbsp;Last Reply：2018-12-08
 						</p>

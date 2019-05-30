@@ -16,6 +16,8 @@
 	text-align:center;
 }
 #main div.wrapContent div.left div.face img {
+	width: 120px;
+	height: 120px;
 	margin:20px 0 0 0;
 }
 #main div.wrapContent div.left div.name {
