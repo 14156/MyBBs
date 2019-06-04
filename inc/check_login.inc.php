@@ -8,12 +8,10 @@ if(mb_strlen($_POST['name'])>32){
 if(empty($_POST['pw'])){
 	skip('login.php','error','Password can not be empty');
 }
-//if(strtolower($_POST['vcode'])!=strtolower($_SESSION['vcode'])){
-// 	skip('register.php','error','Verification code error, please try again!');
-// }
+if(strtolower($_POST['vcode'])!=strtolower(implode("",$_SESSION['vcode']))){
+	skip('login.php','error','Verification code error, please try again!');
+}
  if(empty($_POST['time']) || is_numeric($_POST['time']) || $_POST['time']>2592000){
  	$_POST['time']=2592000;
  };
-
-
 ?>

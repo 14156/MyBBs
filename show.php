@@ -23,6 +23,7 @@ $data_content['times']=$data_content['times']+1;
 $data_content['title']=htmlspecialchars($data_content['title']);
 $data_content['content']=nl2br(htmlspecialchars($data_content['content']));
 
+
 $query="select * from `ao3-child-module` where id={$data_content['module_id']}";
 $result_child=execute($link,$query);
 $data_child=mysqli_fetch_assoc($result_child);
@@ -31,6 +32,8 @@ $query="select * from `ao3-parent-module` where id={$data_child['parent_module_i
 $result_parent=execute($link,$query);
 $data_parent=mysqli_fetch_assoc($result_parent);
 
+$query="select count(*) from `ao3-reply` where content_id={$_GET['id']}";
+$reply_count=num($link,$query);
 
 $template['title']='Post Detail';
 $template['css']=array('style/public.css','style/show.css');
@@ -47,7 +50,8 @@ $template['css']=array('style/public.css','style/show.css');
 			<?php
 			$query="select count(*) from `ao3-reply` where content_id={$_GET['id']}";
 			$count_reply=num($link,$query);
-			$page=page($count_reply,5);
+			$page_size=5;
+			$page=page($count_reply,$page_size);
 			echo $page['html'];
 			?>
 		</div>
@@ -74,7 +78,7 @@ $template['css']=array('style/public.css','style/show.css');
 		<div class="right">
 			<div class="title">
 				<h2><?php echo$data_content['title']?></h2>
-				<span>View：<?php echo $data_content['times']?>&nbsp;|&nbsp;Reply：15</span>
+				<span>View：<?php echo $data_content['times']?>&nbsp;|&nbsp;Reply：<?php echo $reply_count?></span>
 				<div style="clear:both;"></div>
 			</div>
 			<div class="pubdate">
@@ -82,7 +86,7 @@ $template['css']=array('style/public.css','style/show.css');
 				<span class="floor" style="color:red;font-size:14px;font-weight:bold;">Op</span>
 			</div>
 			<div class="content">
-				 <?php echo $data_content['content']?>
+				<?php echo $data_content['content']?>
 			</div>
 		</div>
 		<div style="clear:both;"></div>
@@ -90,19 +94,20 @@ $template['css']=array('style/public.css','style/show.css');
 	<?php
 		}
 	?>
-<?php
-$query="select am.name, ar.member_id, am.photo, ar.time,ar.id, ar.content from `ao3-reply` as ar, `ao3-member` as am where ar.member_id=am.id and ar.content_id={$_GET['id']} {$page['limit']}"; 
-$result_reply=execute($link,$query);
-$i=1;
-while($data_reply=mysqli_fetch_assoc($result_reply)){
+	<?php
+	$query="select am.name, ar.member_id,ar.quote_id,am.photo, ar.time,ar.id, ar.content from `ao3-reply` as ar, `ao3-member` as am where ar.member_id=am.id and ar.content_id={$_GET['id']} {$page['limit']}"; 
+	$result_reply=execute($link,$query);
+	$i=($_GET['page']-1)*$page_size+1;
 
-
-?>
+	while($data_reply=mysqli_fetch_assoc($result_reply)){
+		$data_reply['content']=nl2br(htmlspecialchars($data_reply['content']));
+		
+	?>
 	<div class="wrapContent">
 		<div class="left">
 			<div class="face">
 				<a target="_blank" href="">
-					<img src="<?php if($data_reply['photo']!=''){echo $data_repky['photo'];}else{echo 'style/photo.jpg';}?>" />
+					<img src="<?php if($data_reply['photo']!=''){echo $data_reply['photo'];}else{echo 'style/photo.jpg';}?>" />
 				</a>
 			</div>
 			<div class="name">
@@ -113,12 +118,26 @@ while($data_reply=mysqli_fetch_assoc($result_reply)){
 			
 			<div class="pubdate">
 				<span class="date">Time：<?php echo $data_reply['time']?></span>
-				<span class="floor">#<?php echo $i++ ?>&nbsp;|&nbsp;<a href="#">Quote</a></span>
+				<span class="floor">#<?php echo $i++ ?>&nbsp;|&nbsp;<a target="_balnk" href="quote.php?id=<?php echo $_GET['id']?>&reply_id=<?php echo $data_reply['id']?>">Quote</a></span>
 			</div>
 			<div class="content">
-				<?php 
-				$data_reply['content']=nl2br(htmlspecialchars($data_reply['content']));
-				echo $data_reply['content']?>
+				<?php
+				if($data_reply['quote_id']){
+					$query="select count(*) from `ao3-reply` where content_id={$_GET['id']} and id<={$data_reply['quote_id']}";
+					$floor=num($link,$query);
+					$query="select `ao3-reply`.content,`ao3-member`.name from `ao3-reply`,`ao3-member` where `ao3-reply`.id={$data_reply['quote_id']} and `ao3-reply`.member_id=`ao3-member`.id";
+
+					//and `ao3-reply`.content_id={$_GET['id']} 
+					$result_quote=execute($link,$query);
+					$data_quote=mysqli_fetch_assoc($result_quote);
+					$data_quote['content']=nl2br(htmlspecialchars($data_quote['content']));
+				?>
+				<div class="quote">
+					<h2>Quote #<?php echo $floor ?> <?php echo $data_quote['name']?>:</h2>
+					<?php echo $data_quote['content']?>
+				</div>
+				<?php } ?>
+				<?php echo $data_reply['content'] ?>
 			</div>
 		</div>
 		<div style="clear:both;"></div>

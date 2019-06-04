@@ -66,7 +66,7 @@ $template['css']=array('style/public.css','style/list.css');
 				<a class="btn btn-primary" href="publish.php?child_module_id=<?php echo $_GET['id']?>" role="button" target="_blank">Post</a>
 				<div class="pages">
 					<?php
-					$page=page($count_all,1);
+					$page=page($count_all,2);
 					echo $page['html'];
 					?>
 				</div>
@@ -77,37 +77,39 @@ $template['css']=array('style/public.css','style/list.css');
 		<ul class="postsList">
 			<?php
 			$query="select 
-`ao3-content`.title,`ao3-content`.id,`ao3-content`.time,`ao3-content`.times,
-`ao3-member`.name,`ao3-member`.photo from `ao3-content`,`ao3-member` where 
+`ao3-content`.title,`ao3-content`.id,`ao3-content`.time,`ao3-content`.times, `ao3-content`.member_id, `ao3-member`.name,`ao3-member`.photo from `ao3-content`,`ao3-member` where 
 `ao3-content`.module_id={$_GET['id']} and `ao3-content`.member_id=`ao3-member`.id {$page['limit']}";
-/*
-select 
-`ao3-content`.title,`ao3-content`.id,`ao3-content`.time,`ao3-content`.times,
-`ao3-member`.name,`ao3-member`.photo,`ao3-child-module`.module_name from `ao3-content`,`ao3-member`,`ao3-child-module` where 
-`ao3-content`.module_id in({$id_child}) and 
-`ao3-content`.member_id=`ao3-member`.id and 
-`ao3-content`.module_id=`ao3-child-module`.id {$page['limit']}"
-*/
+
 			$result_content=execute($link,$query);
 			while ($data_content=mysqli_fetch_assoc($result_content)){
 
 				$data_content['title']=htmlspecialchars($data_content['title']);
+				$query="select time from `ao3-reply` where content_id={$data_content['id']} order by id desc limit 1"; 
+					$last_reply=execute($link,$query);
+					if(mysqli_num_rows($last_reply)==0){
+						$last_time='No reply for now';
+					}else{
+						$data_last_reply=mysqli_fetch_assoc($last_reply);
+						$last_time=$data_last_reply['time'];
+					}
+					$query="select count(*) from `ao3-reply` where content_id={$data_content['id']}";
+					$reply_count=num($link,$query);
 			?>
 			<li>
 					<div class="smallPic">
-						<a href="#">
+						<a href="member.php?id=<?php echo $data_content['member_id']?>" target="_blank">
 							<img width="45" height="45" src="<?php if($data_content['photo']!=''){echo $data_content['photo'];}else{echo 'style/photo.jpg';}?>">
 						</a>
 					</div>
 					<div class="subject">
 						<div class="titleWrap"><h2><a target="_blank" href="show.php?id=<?php echo $data_content['id']?>"><?php echo $data_content['title']?></a></h2></div>
 						<p>
-							Op：<?php echo $data_content['name'] ?>&nbsp;<?php echo $data_content['time'] ?>&nbsp;&nbsp;&nbsp;&nbsp;Last Reply：2018-12-08
+							Op：<?php echo $data_content['name'] ?>&nbsp;<?php echo $data_content['time'] ?>&nbsp;&nbsp;&nbsp;&nbsp;Last Reply：<?php echo $last_time?>
 						</p>
 					</div>
 					<div class="count">
 						<p>
-							Reply<br/><span>41</span>
+							Reply<br/><span><?php echo $reply_count?></span>
 						</p>
 						<p>
 							View<br/><span><?php echo $data_content['times'] ?></span>
@@ -124,9 +126,8 @@ select
 			<a class="btn btn-primary" href="publish.php?child_module_id=<?php echo $_GET['id']?>" role="button" target="_blank">Post</a>
 			<div class="pages">
 				<?php
-					$page=page($count_all,1);
 					echo $page['html'];
-					?>
+				?>
 			</div>
 			<div style="clear:both;"></div>
 		</div>

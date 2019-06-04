@@ -49,7 +49,4 @@ $template['css']=array('style/public.css','style/publish.css');
 		<div style="clear:both;"></div>
 	</form>
 </div>
-<div id="footer" class="auto">
-
-
 <?php include 'inc/footer.inc.php' ?>

@@ -30,10 +30,9 @@ foreach ($template['css'] as $val) {
 			<?php 
 				if(isset($member_id) && $member_id){
 $str=<<<A
-<a>Hello, {$_COOKIE['ao3']['name']}</a> <span style="color:#fff">|</span> <a href="logout.php">SIGN OUT</a>
+<a href="member.php?id={$member_id}" target="_blank"> Hello, {$_COOKIE['ao3']['name']}</a> <span style="color:#fff">|</span> <a href="logout.php">SIGN OUT</a>
 A;
 					echo $str;
-
 				}else{
 $str=<<<A
 <a href="login.php">SIGN IN</a>&nbsp;&nbsp;<a href="register.php">Register</a>

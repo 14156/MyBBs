@@ -120,20 +120,28 @@ body {
 	color:#fff;
 }
 a.btn {
+    color: white;
+    text-decoration: none;
 	display:block;
-	width:70px;
+	width:65px;
 	height:30px;
-    font-size: 15px;
+    font-size: 18px;
     padding: .1rem .75rem;
     background-color: #488fcf;
 	float:left;
-}
-a.publish {
-	/*background:url(submit.png);
-    background-repeat: no-repeat;*/
+    text-align: center;
+    border-radius: 4px;
+    border: 2px solid #e7e7e7;
 
 }
-/*a.reply {
+
+/*a.publish {
+
+	background:url(submit.png);
+    background-repeat: no-repeat;
+
+}
+a.reply {
 	background:url(bg.png) 0 -90px no-repeat;
 }*/
 .pages_wrap .pages {

@@ -4,6 +4,9 @@ $count: total #pages needed $page_size: how many posts show on one page,
 $num_btn: how many page button shows, $page:url parameter for $_GET
 */
 function page($count,$page_size,$num_btn=10,$page='page'){
+	if(!isset($_GET[$page]) || !is_numeric($_GET[$page]) || $_GET[$page]<1){
+		$_GET[$page]=1;
+	}
 	if($count==0){//if no post exist in section, return empty array
 		$data=array(
 		'limit'=>'',
@@ -11,9 +14,7 @@ function page($count,$page_size,$num_btn=10,$page='page'){
 	);
 	return $data;
 	}
-	if(!isset($_GET[$page]) || !is_numeric($_GET[$page]) || $_GET[$page]<1){
-		$_GET[$page]=1;
-	}
+	
 	$page_num_all=ceil($count/$page_size);//total page
 	if($_GET[$page]>$page_num_all){
 		$_GET[$page]=$page_num_all;
